@@ -1,0 +1,182 @@
+<title>Kairouan Kufic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one working sheet — the writing slab on top, then the letter table, all on the book's rhombus rhythm */
+@font-face { font-family: "Kairouan Kufic"; src: url(data:font/woff2;base64,__FONT__) format("woff2"); font-display: block; }
+:root {
+  --bg: #f7f4ec; --paper: #fffdf7; --ink: #1d1a14; --muted: #6f685a; --rule: #e3dccb;
+  --ochre: #e7b21e; --nuqta: #d23a1f; --focus: #1f5fbf;
+  --kufi: "Kairouan Kufic", serif;
+  --ui: "Noto Naskh Arabic", "Geeza Pro", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16140f; --paper: #1f1c16; --ink: #f1ead8; --muted: #a59c88; --rule: #383226;
+  --ochre: #f0c040; --nuqta: #ef5a3c; --focus: #7aa7ff; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #16140f; --paper: #1f1c16; --ink: #f1ead8; --muted: #a59c88; --rule: #383226;
+  --ochre: #f0c040; --nuqta: #ef5a3c; --focus: #7aa7ff; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--ui); margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; }
+.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 28px }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; direction: rtl }
+.mark { display: flex; align-items: center; gap: 14px }
+.mark .nuq { width: 18px; height: 18px; background: var(--nuqta); transform: rotate(45deg); flex: none }
+h1 { font-family: var(--kufi); font-weight: 400; font-size: clamp(40px, 6.5vw, 70px); line-height: 1.9; margin: 0; text-wrap: balance }
+.sub { color: var(--muted); font-size: 15px; margin: 4px 0 0 }
+.spec { font-family: var(--mono); font-size: 12px; color: var(--muted); direction: ltr; text-align: left; line-height: 1.6; font-variant-numeric: tabular-nums }
+.spec b { color: var(--ink); font-weight: 500 }
+
+.slab { background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden }
+.bar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--rule); direction: rtl }
+.bar label { font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 8px }
+input[type=range] { width: 140px; accent-color: var(--nuqta) }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { font-family: var(--ui); font-size: 14px; border: 1px solid var(--rule); background: transparent; color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer }
+.chip:hover { border-color: var(--ochre) }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px }
+.toggle { display: flex; gap: 6px; margin-inline-start: auto }
+textarea { display: block; width: 100%; min-height: 320px; resize: vertical; border: 0; padding: 18px 20px 30px; background: var(--paper); color: var(--ink); font-family: var(--kufi); font-size: var(--fs); line-height: var(--lh); direction: rtl; text-align: right }
+textarea.alt1, .alt1 { font-feature-settings: "ss01" 1, "salt" 1 }
+textarea.mashq { font-feature-settings: "ss02" 1 }
+textarea.duali { font-feature-settings: "ss03" 1 }
+textarea.alt1.duali { font-feature-settings: "ss01" 1, "ss03" 1 }
+textarea.mashq.duali { font-feature-settings: "ss02" 1, "ss03" 1 }
+textarea.alt1.mashq.duali { font-feature-settings: "ss01" 1, "ss02" 1, "ss03" 1 }
+textarea.alt1.mashq { font-feature-settings: "ss01" 1, "salt" 1, "ss02" 1 }
+tr.alt td.name { font-size: 13px }
+textarea.ochre { color: var(--ochre); -webkit-text-stroke: max(1px, calc(var(--fs) * 0.012)) var(--ink) }
+.hint { padding: 8px 16px 12px; font-size: 13px; color: var(--muted); direction: rtl; border-top: 1px solid var(--rule) }
+
+h2 { font-size: 20px; font-weight: 600; margin: 0 0 4px; direction: rtl }
+.lead { color: var(--muted); margin: 0 0 14px; direction: rtl; font-size: 15px }
+.tablewrap { overflow-x: auto; background: var(--paper); border: 1px solid var(--rule); border-radius: 6px }
+table { border-collapse: collapse; width: 100%; direction: rtl; min-width: 560px }
+th, td { border-bottom: 1px solid var(--rule); padding: 6px 10px; text-align: center }
+th { font-weight: 600; font-size: 13px; color: var(--muted); letter-spacing: .02em; background: var(--bg) }
+td.name { font-family: var(--ui); font-size: 15px; text-align: right; white-space: nowrap; color: var(--muted) }
+td.g { font-family: var(--kufi); font-size: 44px; line-height: 1.75; color: var(--ink) }
+td.none { color: var(--rule); font-size: 22px }
+tr:last-child td { border-bottom: 0 }
+footer { color: var(--muted); font-size: 13px; direction: rtl; line-height: 1.8 }
+@media (max-width: 560px) { .toggle { margin-inline-start: 0 } textarea { min-height: 240px } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="mark"><span class="nuq" aria-hidden="true"></span><h1>الخط الكوفي القيرواني</h1></div>
+      <p class="sub">جرّب الخط: اكتب أو الصق أي نص عربي، والحروف بتتصل وبتغيّر شكلها لحالها.</p>
+    </div>
+    <div class="spec">
+      <div><b>1 nuqta</b> = 196 u · UPM 1400</div>
+      <div>pen <b>140</b> · vertical <b>100</b> · horizontal <b>120</b> · gap <b>20</b></div>
+      <div>alif <b>5</b> nuqta · joins cut at <b>60°</b> · v2.1</div>
+    </div>
+  </header>
+
+  <section class="slab" aria-label="مساحة الكتابة">
+    <div class="bar">
+      <div class="chips" role="group" aria-label="نصوص جاهزة">
+        <button class="chip" id="s1" data-t="بسم الله الرحمن الرحيم">البسملة</button>
+        <button class="chip" id="s2" data-t="محمد رسول الله">محمد رسول الله</button>
+        <button class="chip" id="s3" data-t="العلم نور والجهل ظلام">العلم نور</button>
+        <button class="chip" id="s4" data-t="قلب فعل سمع علم كتب شجرة ضوء خبز ظل غيث ذهب">كلمات</button>
+        <button class="chip" id="s5" data-t="بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ&#10;مَدْرَسَةٌ جَمِيلَةٌ وَكِتَابٌ مُفِيدٌ">مع التشكيل</button>
+        <button class="chip" id="s6" data-t="ابتثجحخدذرزسشصضطظعغفقكلمنهوي">الأبجدية</button>
+        <button class="chip" id="s7" data-t="٠١٢٣٤٥٦٧٨٩ · 0123456789&#10;هل قرأت الكتاب؟ نعم، قرأته!&#10;«العلم نور» (حكمة) ١٤٤٧ هـ – ٪٩٠">أرقام وإشارات</button>
+        <button class="chip" id="s8" data-t="بســم الله الرحمــن الرحيــم&#10;محمد مـحمد مــحمد مـــحمد">مد بالـ «ـ»</button>
+      </div>
+      <label for="size">الحجم <input id="size" type="range" min="28" max="160" value="78"><span id="sizev" class="spec">78px</span></label>
+      <div class="toggle" role="group" aria-label="اللون">
+        <button class="chip" id="inkBtn" aria-pressed="true">حبر</button>
+        <button class="chip" id="ochreBtn" aria-pressed="false">ذهبي متل الكتاب</button>
+      </div>
+      <div class="toggle" role="group" aria-label="الأشكال البديلة">
+        <button class="chip" id="altBtn" aria-pressed="false">الأشكال القصيرة (ss01)</button>
+        <button class="chip" id="mashqBtn" aria-pressed="false">مد الوصلات (ss02)</button>
+        <button class="chip" id="dualiBtn" aria-pressed="false">حركات الدؤلي (ss03)</button>
+      </div>
+    </div>
+    <textarea id="pad" spellcheck="false" aria-label="النص">بسم الله الرحمن الرحيم
+محمد رسول الله</textarea>
+  </section>
+
+  <section>
+    <h2>جدول الحروف</h2>
+    <p class="lead">كل حرف بأشكاله الأربعة. الحروف يلي ما بتتصل باللي بعدها إلها شكلين بس. السطور الملوّنة هي الأشكال القصيرة: الخط بيختارها لحالو إذا الذيل رح يخبط بالكلمة يلي بعدو، أو بتفرضها كلها من زر ss01.</p>
+    <div class="tablewrap"><table id="tbl">
+      <thead><tr><th>الحرف</th><th>منفرد</th><th>أول</th><th>وسط</th><th>آخر</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </section>
+
+  <footer>
+    مبني على قواعد «قواعد الخط الكوفي القيرواني» لعامر بن جدو: النقطة وحدة القياس، وكل حرف من خطوط مستقيمة وأقواس محددة بأرقام.
+    النقاط والحركات والهمزة والأرقام والإشارات مضافة على نفس النظام، لأن الكتاب نفسو بدون نقاط. «الله» كتلة وحدة من رسم مؤمن.<br>
+    © 2026 مؤمن · الخط مجاني برخصة SIL Open Font License 1.1 · الاسمين «Kairouan Kufic» و«الكوفي القيرواني» محفوظين للمصمم.
+  </footer>
+</div>
+
+<script>
+(() => {
+  const pad = document.getElementById("pad"), size = document.getElementById("size"), sizev = document.getElementById("sizev");
+  const LS = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
+  function setSize(px) {
+    pad.style.setProperty("--fs", px + "px");
+    pad.style.setProperty("--lh", (px * 1.75) + "px");          // tails reach 4.5 nuqta below the line, so lines need room
+    sizev.textContent = px + "px";
+  }
+  size.addEventListener("input", () => { setSize(+size.value); LS("kk-size", size.value); });
+  const saved = LS("kk-size"); if (saved) size.value = saved;
+  setSize(+size.value);
+  const draft = LS("kk-text"); if (draft) pad.value = draft;
+  pad.addEventListener("input", () => LS("kk-text", pad.value));
+  document.querySelectorAll(".chips .chip").forEach(b => b.addEventListener("click", () => { pad.value = b.dataset.t; LS("kk-text", pad.value); pad.focus(); }));
+  const ink = document.getElementById("inkBtn"), ochre = document.getElementById("ochreBtn");
+  function mode(o) { pad.classList.toggle("ochre", o); ink.setAttribute("aria-pressed", String(!o)); ochre.setAttribute("aria-pressed", String(o)); }
+  ink.addEventListener("click", () => mode(false)); ochre.addEventListener("click", () => mode(true));
+  const altBtn = document.getElementById("altBtn");
+  function alt(o) { pad.classList.toggle("alt1", o); altBtn.setAttribute("aria-pressed", String(o)); LS("kk-alt", o ? "1" : "0"); }
+  altBtn.addEventListener("click", () => alt(altBtn.getAttribute("aria-pressed") !== "true"));
+  alt(LS("kk-alt") === "1");
+  const mashqBtn = document.getElementById("mashqBtn");
+  function mashq(o) { pad.classList.toggle("mashq", o); mashqBtn.setAttribute("aria-pressed", String(o)); LS("kk-mashq", o ? "1" : "0"); }
+  mashqBtn.addEventListener("click", () => mashq(mashqBtn.getAttribute("aria-pressed") !== "true"));
+  mashq(LS("kk-mashq") === "1");
+  const dualiBtn = document.getElementById("dualiBtn");
+  function duali(o) { pad.classList.toggle("duali", o); dualiBtn.setAttribute("aria-pressed", String(o)); LS("kk-duali", o ? "1" : "0"); }
+  dualiBtn.addEventListener("click", () => duali(dualiBtn.getAttribute("aria-pressed") !== "true"));
+  duali(LS("kk-duali") === "1");
+  const ALTS = __ALTS__;   // char -> forms that have an alternate
+
+  const ZWJ = "‍";
+  const L = [["ا","ألف",0],["ب","باء",1],["ت","تاء",1],["ث","ثاء",1],["ج","جيم",1],["ح","حاء",1],["خ","خاء",1],["د","دال",0],["ذ","ذال",0],
+    ["ر","راء",0],["ز","زاي",0],["س","سين",1],["ش","شين",1],["ص","صاد",1],["ض","ضاد",1],["ط","طاء",1],["ظ","ظاء",1],["ع","عين",1],["غ","غين",1],
+    ["ف","فاء",1],["ق","قاف",1],["ك","كاف",1],["ل","لام",1],["م","ميم",1],["ن","نون",1],["ه","هاء",1],["ة","تاء مربوطة",0],["و","واو",0],
+    ["ي","ياء",1],["ى","ألف مقصورة",1],["أ","ألف همزة",0],["إ","ألف همزة تحت",0],["آ","ألف مد",0],["ؤ","واو همزة",0],["ئ","ياء همزة",1],["لا","لام ألف",0]];
+  const tb = document.querySelector("#tbl tbody");
+  for (const [c, n, dual] of L) {
+    const tr = document.createElement("tr");
+    const cell = (t, cls) => { const td = document.createElement("td"); td.className = cls; td.textContent = t; return td; };
+    tr.appendChild(cell(n, "name"));
+    tr.appendChild(cell(c, "g"));
+    tr.appendChild(dual ? cell(c + ZWJ, "g") : cell("—", "none"));
+    tr.appendChild(dual ? cell(ZWJ + c + ZWJ, "g") : cell("—", "none"));
+    tr.appendChild(cell(ZWJ + c, "g"));
+    tb.appendChild(tr);
+    const af = ALTS[c];
+    if (af) {
+      const ta = document.createElement("tr"); ta.className = "alt";
+      ta.appendChild(cell(n + " · بديل", "name"));
+      const forms = [["isol", c], ["init", c + ZWJ], ["medi", ZWJ + c + ZWJ], ["fina", ZWJ + c]];
+      for (const [f, t] of forms) { const td = af.includes(f) ? cell(t, "g alt1") : cell("—", "none"); if (af.includes(f)) td.style.color = "var(--nuqta)"; ta.appendChild(td); }
+      tb.appendChild(ta);
+    }
+  }
+})();
+</script>

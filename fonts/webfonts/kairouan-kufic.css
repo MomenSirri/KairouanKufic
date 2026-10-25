@@ -1,0 +1,17 @@
+/* Kairouan Kufic — web font
+   <link rel="stylesheet" href="kairouan-kufic.css">  then  class="kufi"  (or font-family: "Kairouan Kufic") */
+@font-face {
+  font-family: "Kairouan Kufic";
+  src: url("KairouanKufic-Regular.woff2") format("woff2"),
+       url("KairouanKufic-Regular.woff") format("woff"),
+       url("../ttf/KairouanKufic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+.kufi         { font-family: "Kairouan Kufic", serif; direction: rtl; line-height: 1.75; }  /* tails reach 4.5 nuqta down */
+.kufi-short   { font-feature-settings: "ss01" 1; }   /* every long tail short (ي ن ق س ص) */
+.kufi-mashq   { font-feature-settings: "ss02" 1; }   /* every join 1 nuqta longer (kashida) */
+.kufi-duali   { font-feature-settings: "ss03" 1; }   /* harakat as the red dots of Abu al-Aswad al-Du'ali (Kairouan manuscripts) */
+.kufi-short.kufi-mashq { font-feature-settings: "ss01" 1, "ss02" 1; }
+.kufi-plain   { font-variant-ligatures: no-common-ligatures; }  /* write الله letter by letter */
